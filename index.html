@@ -19,8 +19,13 @@
 
     <!-- Files template. -->
     <script type="text/x-handlebars" id="files">
-        <h2>Welcome to file upload demo</h2>
-        <br>
+        <h2>Welcome to file upload demo</h2><br>
+        
+        <button {{action "uploadAll"}} class="btn btn-primary">Upload All</button>
+        <button {{action "removeCompleted"}} class="btn btn-default btn-remove-completed">Remove Completed</button>
+        <label class="total-size">Total file size: </label> {{totalFileSize}}
+        
+        <br><br>
 
         {{#each uploadFile in controller}}
             <div class="upload-file-block">
@@ -54,9 +59,6 @@
                 </div>
             </div>
         {{/each}}
-        
-        <button {{action "uploadAll"}} class="btn btn-primary">Upload All</button>
-        <button {{action "removeCompleted"}} class="btn btn-default">Remove Completed</button>
     </script>
 
     <!-- Since we're not using buildtools, pull all the files in manually in specific order. -->

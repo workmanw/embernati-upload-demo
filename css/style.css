@@ -84,3 +84,11 @@ body {
 .progress {
     margin-top: 5px;
 }
+
+.btn-remove-completed {
+    margin-left: 5px;
+}
+
+.total-size {
+    margin-left: 114px;
+}

@@ -12,6 +12,7 @@ App.FileUploadModel = Ember.Object.extend({
         var isImage = fileToUpload.type.indexOf('image') === 0;
         
         this.set('name', fileToUpload.name);
+        this.set('rawSize', fileToUpload.size);
         this.set('size', App.humanReadableFileSize(fileToUpload.size));
         
         // Don't read anything bigger than 5 MB
@@ -34,8 +35,11 @@ App.FileUploadModel = Ember.Object.extend({
     name: '',
     
     // {Property} Human readable size of the selected file
-    size: 0,
+    size: "0 KB",
     
+    // {Property} Raw file size of the selected file
+    rawSize: 0,
+
     // {Property} Indicates if this file is an image we can display
     isDisplayableImage: false,
     
@@ -119,7 +123,9 @@ App.FileUploadModel = Ember.Object.extend({
 // Helper to build human readible file size strings.
 App.humanReadableFileSize = function(size) {
     var label = "";
-    if(size && !isNaN(size)) {
+    if(size == 0) {
+        label = "0 KB";
+    } else if(size && !isNaN(size)) {
         var fileSizeInBytes = size;
         var i = -1;
         do {
