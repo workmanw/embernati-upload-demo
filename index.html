@@ -27,38 +27,52 @@
         
         <br><br>
 
-        {{#each uploadFile in controller}}
-            <div class="upload-file-block">
-                <div class="image-preview">
-                    {{#if uploadFile.isDisplayableImage}}
-                        <img class="image-preview" {{bind-attr src=uploadFile.base64Image}} />
-                    {{else}}
-                        <img class="image-preview" src="img/image-unknown.gif">
-                    {{/if}}
+        <div class="row">
+            <div class="col-md-7">
+            {{#each uploadFile in controller}}
+                <div class="upload-file-block">
+                    <div class="image-preview">
+                        {{#if uploadFile.isDisplayableImage}}
+                            <img class="image-preview" {{bind-attr src=uploadFile.base64Image}} />
+                        {{else}}
+                            <img class="image-preview" src="img/image-unknown.gif">
+                        {{/if}}
+                    </div>
+                  
+                    <div class="details-block">
+                        <label>Name:</label> {{input value=uploadFile.name}} <br>
+                        <label>Size:</label> {{uploadFile.size}}<br>
+                        
+                        {{#if uploadFile.didUpload}}
+                            <span class="has-success">
+                                <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+                                <span class="form-control-feedback">Success</span>
+                            </span>
+                        {{else}}
+                            <a {{action "uploadFile" uploadFile}}>Upload</a>
+                        {{/if}}
+                        <a {{action "removeFile" uploadFile}} class="remove-from-list">Remove from List</a>
+                        
+                        {{#if uploadFile.showProgressBar}}
+                            <div class="progress progress-striped">
+                                <div class="progress-bar progress-bar-info" {{bind-attr style="uploadFile.progressStyle"}}></div>
+                            </div>
+                        {{/if}}
+                    </div>
                 </div>
-              
-                <div class="details-block">
-                    <label>Name:</label> {{input value=uploadFile.name}} <br>
-                    <label>Size:</label> {{uploadFile.size}}<br>
-                    
-                    {{#if uploadFile.didUpload}}
-                        <span class="has-success">
-                            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
-                            <span class="form-control-feedback">Success</span>
-                        </span>
-                    {{else}}
-                        <a {{action "uploadFile" target=uploadFile}}>Upload</a>
-                    {{/if}}
-                    <a {{action "removeFile" uploadFile}} class="remove-from-list">Remove from List</a>
-                    
-                    {{#if uploadFile.showProgressBar}}
-                        <div class="progress progress-striped">
-                            <div class="progress-bar progress-bar-info" {{bind-attr style="uploadFile.progressStyle"}}></div>
-                        </div>
-                    {{/if}}
+            {{/each}}
+            </div>
+            <div class="col-md-5">
+                <div class="well">
+                    <label>Upload Logs</label>
+                    <ul>
+                    {{#each url in uploadedLog}}
+                        <li><a {{bind-attr href="url"}} target="_blank">{{url}}</a></li>
+                    {{/each}}
+                    </ul>
                 </div>
             </div>
-        {{/each}}
+        </div>
     </script>
 
     <!-- Since we're not using buildtools, pull all the files in manually in specific order. -->

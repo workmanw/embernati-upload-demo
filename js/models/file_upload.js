@@ -108,6 +108,8 @@ App.FileUploadModel = Ember.Object.extend({
             self.set('isUploading', false);
             self.get('uploadPromise').reject(errorThrown);
         });
+        
+        return this.get('uploadPromise');
     },
     
     // ..........................................................

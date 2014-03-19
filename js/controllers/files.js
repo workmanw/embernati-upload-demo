@@ -1,4 +1,6 @@
 App.FilesController = Ember.ArrayController.extend({
+    uploadedLog: [],
+    
     totalFileSize: function() {
         var total = 0;
         this.get('model').forEach(function(file) {
@@ -17,9 +19,19 @@ App.FilesController = Ember.ArrayController.extend({
             this.get('model').removeObjects(completed);
         },
         
+        uploadFile: function(file) {
+            var uploadedLog = this.get('uploadedLog');
+            file.uploadFile().then(function(url) {
+                uploadedLog.pushObject(url);
+            });
+        },
+        
         uploadAll: function() {
+            var uploadedLog = this.get('uploadedLog');
             this.get('model').forEach(function(item) {
-                item.uploadFile();
+                item.uploadFile().then(function(url) {
+                    uploadedLog.pushObject(url);
+                });
             });
         }
     }
