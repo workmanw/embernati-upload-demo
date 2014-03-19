@@ -1,0 +1,48 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript">
+    function jQueryAjaxUpload() {
+        var file = document.getElementById('file').files[0];
+        var fd = new FormData();
+
+        var key = "events/" + (new Date).getTime() + '-' + file.name;
+
+        fd.append('key', key);
+        fd.append('acl', 'public-read-write'); 
+        fd.append('Content-Type', file.type);      
+        fd.append('file', file);
+
+        $.ajax({
+          url: 'http://embernati-demo.s3.amazonaws.com/',
+          type: "POST",
+          data: fd,
+          processData: false,
+          contentType: false,
+          xhr: function() {
+            var xhr = $.ajaxSettings.xhr() ;
+            // set the onprogress event handler
+            xhr.upload.onprogress = function(evt) { 
+                console.log('progress: ' + (evt.loaded/evt.total*100));
+            };
+            return xhr ;
+          }
+        }).done(function(data, textStatus, jqXHR) {
+            debugger;
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            debugger;
+        });
+    }
+  </script>
+</head>
+<body>
+  <input type="file" id="file">
+  <span>do it</span>
+</body>
+</html>
