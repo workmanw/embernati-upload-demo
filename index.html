@@ -8,14 +8,16 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
 <body>
-  <script type="text/x-handlebars">
+    <!-- Main application template. -->
+    <script type="text/x-handlebars">
         {{outlet}}
-    
+        
         <div id="global-dropzone" {{bind-attr class="showDropZone:visible"}}>
             <h2>Drop files to upload</h2>
         </div>
     </script>
 
+    <!-- Files template. -->
     <script type="text/x-handlebars" id="files">
         <h2>Welcome to file upload demo</h2>
         <br>
@@ -57,6 +59,7 @@
         <button {{action "removeCompleted"}} class="btn btn-default">Remove Completed</button>
     </script>
 
+    <!-- Since we're not using buildtools, pull all the files in manually in specific order. -->
     <script src="js/libs/jquery-1.10.2.js"></script>
     <script src="js/libs/handlebars-1.1.2.js"></script>
     <script src="js/libs/ember-1.4.0.js"></script>
