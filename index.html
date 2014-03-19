@@ -5,6 +5,7 @@
   <title>Ember Starter Kit</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
 <body>
   <script type="text/x-handlebars">
@@ -18,8 +19,24 @@
   </script>
 
   <script type="text/x-handlebars" id="files">
-      {{#each uploadFile in this}}
-          {{uploadFile.name}}
+      <br>
+      
+      {{#each uploadFile in controller}}
+          <div class="upload-file-block">
+                <div class="image-preview">
+                    {{#if uploadFile.isDisplayableImage}}
+                        <img class="image-preview" {{bind-attr src=uploadFile.base64Image}} />
+                    {{else}}
+                        <img class="image-preview" src="img/image-unknown.gif">
+                    {{/if}}
+                </div>
+              
+                <div class="details-block">
+                    <label>Name:</label> {{input value=uploadFile.name}} <br>
+                    <label>Size:</label> {{uploadFile.size}}<br>
+                    <a {{action "removeFile" uploadFile}}>Remove</a>
+                </div>
+          </div>
       {{/each}}
   </script>
 
