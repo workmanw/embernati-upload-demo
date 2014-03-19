@@ -58,26 +58,52 @@ App.FileUploadModel = Ember.Object.extend({
     uploadProgress: null,
     
     // ..........................................................
-    // Callbacks from the transport layer
-    //
-    // {Function} Did start uploading
-    didStartUpload: function() {
+    // Actually do something!
+    //    
+    uploadFile: function() {
+        var fileToUpload = this.get('fileToUpload');
+        var name = this.get('name');
+        var key = "public-uploads/" + (new Date).getTime() + '-' + name;
+        var fd = new FormData();
+        var self = this;
+        
+        fd.append('key', key);
+        fd.append('acl', 'public-read-write'); 
+        fd.append('success_action_status', '201');
+        fd.append('Content-Type', fileToUpload.type);      
+        fd.append('file', fileToUpload);
+
         this.set('isUploading', true);
-    },
-    
-    // {Function} Did error on upload
-    didErrorUpload: function(errMsg) {
-        this.set('isUploading', false);
-        this.get('uploadPromise').reject(errMsg);
-    },
-    
-    // {Function} Did complete the upload process succesfully
-    didCompleteUpload: function(result) {
-        this.set('isUploading', false);
-        this.get('uploadPromise').resolve(result);
-    } 
+
+        $.ajax({
+            url: 'http://embernati-demo.s3.amazonaws.com/',
+            type: "POST",
+            data: fd,
+            processData: false,
+            contentType: false,
+            xhr: function() {
+                var xhr = $.ajaxSettings.xhr() ;
+                // set the onprogress event handler
+                xhr.upload.onprogress = function(evt) { 
+                    self.set('progress', (evt.loaded/evt.total*100));
+                };
+                return xhr ;
+            }
+        }).done(function(data, textStatus, jqXHR) {
+            var value = "";
+            try {
+                value = data.getElementsByTagName('Location')[0].textContent;
+            } catch(e) { }
+            self.set('isUploading', false);
+            self.get('uploadPromise').resolve(value);
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            self.set('isUploading', false);
+            self.get('uploadPromise').reject(errorThrown);
+        });
+    }
 });
 
+// Helper to build human readible file size strings.
 App.humanReadableFileSize = function(size) {
     var label = "";
     if(size && !isNaN(size)) {

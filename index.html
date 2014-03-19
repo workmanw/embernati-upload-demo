@@ -35,6 +35,7 @@
                     <label>Name:</label> {{input value=uploadFile.name}} <br>
                     <label>Size:</label> {{uploadFile.size}}<br>
                     <a {{action "removeFile" uploadFile}}>Remove</a>
+                    <a {{action "uploadFile" target=uploadFile}}> Upload! </a>
                 </div>
           </div>
       {{/each}}
