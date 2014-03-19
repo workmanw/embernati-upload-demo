@@ -9,8 +9,6 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-        <h2>Welcome to file upload demo</h2>
-    
         {{outlet}}
     
         <div id="global-dropzone" {{bind-attr class="showDropZone:visible"}}>
@@ -19,8 +17,9 @@
     </script>
 
     <script type="text/x-handlebars" id="files">
+        <h2>Welcome to file upload demo</h2>
         <br>
-      
+
         {{#each uploadFile in controller}}
             <div class="upload-file-block">
                 <div class="image-preview">
@@ -34,11 +33,28 @@
                 <div class="details-block">
                     <label>Name:</label> {{input value=uploadFile.name}} <br>
                     <label>Size:</label> {{uploadFile.size}}<br>
-                    <a {{action "removeFile" uploadFile}}>Remove</a>
-                    <a {{action "uploadFile" target=uploadFile}}> Upload! </a>
+                    
+                    {{#if uploadFile.didUpload}}
+                        <span class="has-success">
+                            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+                            <span class="form-control-feedback">Success</span>
+                        </span>
+                    {{else}}
+                        <a {{action "uploadFile" target=uploadFile}}>Upload</a>
+                    {{/if}}
+                    <a {{action "removeFile" uploadFile}} class="remove-from-list">Remove from List</a>
+                    
+                    {{#if uploadFile.showProgressBar}}
+                        <div class="progress progress-striped">
+                            <div class="progress-bar progress-bar-info" {{bind-attr style="uploadFile.progressStyle"}}></div>
+                        </div>
+                    {{/if}}
                 </div>
             </div>
         {{/each}}
+        
+        <button {{action "uploadAll"}} class="btn btn-primary">Upload All</button>
+        <button {{action "removeCompleted"}} class="btn btn-default">Remove Completed</button>
     </script>
 
     <script src="js/libs/jquery-1.10.2.js"></script>

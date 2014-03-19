@@ -76,3 +76,11 @@ body {
 .details-block input {
     width: 320px;
 }
+
+.remove-from-list {
+    float: right;
+}
+
+.progress {
+    margin-top: 5px;
+}

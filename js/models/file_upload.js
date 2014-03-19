@@ -51,11 +51,14 @@ App.FileUploadModel = Ember.Object.extend({
     // {Property} Promise for when a file was uploaded
     uploadPromise: null,
     
+    // {Property} Upload progress 0-100 
+    uploadProgress: null,
+    
     // {Property} If a file is currently being uploaded
     isUploading: false,
     
-    // {Property} Upload progress 0-100 
-    uploadProgress: null,
+    // {Property} If the file was uploaded successfully
+    didUpload: false,
     
     // ..........................................................
     // Actually do something!
@@ -95,12 +98,22 @@ App.FileUploadModel = Ember.Object.extend({
                 value = data.getElementsByTagName('Location')[0].textContent;
             } catch(e) { }
             self.set('isUploading', false);
+            self.set('didUpload', true);
             self.get('uploadPromise').resolve(value);
         }).fail(function(jqXHR, textStatus, errorThrown) {
             self.set('isUploading', false);
             self.get('uploadPromise').reject(errorThrown);
         });
-    }
+    },
+    
+    // ..........................................................
+    // Progress support, this belongs in a component. Ran out of time.
+    // 
+    showProgressBar: Ember.computed.or('isUploading', 'didUpload'),
+
+    progressStyle: function() {
+        return 'width: %@%'.fmt(this.get('progress'));
+    }.property('progress')
 });
 
 // Helper to build human readible file size strings.
