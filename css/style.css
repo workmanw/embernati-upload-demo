@@ -4,7 +4,6 @@
 }
 
 body {
-  color: #545654;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -13,6 +12,36 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-#global-dropzone { background: none repeat scroll 0 0 #424242; height: 0px; width: 100%; position: fixed; top: 0; left: 0; z-index: 10001; opacity: 0; .css-transition(opacity 0.2s ease-in-out); }
-#global-dropzone.visible { height: 100%; opacity: 0.8; }
-#global-dropzone h2 { display: block; position: absolute; top: 50%; left: 50%; margin: -82px 0 0 -283px; color: #fff; line-height: 50px; font-size: 45pt; z-index: -1; text-shadow: 3px 3px 4px #000; font-weight: 700; }
+#global-dropzone { 
+    background: none repeat scroll 0 0 #424242; 
+    height: 0px; 
+    width: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: 10001; 
+    opacity: 0; 
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition:  opacity 0.2s ease-in-out;
+    -o-transition:  opacity 0.2s ease-in-out;
+    transition:  opacity 0.2s ease-in-out; 
+}
+
+#global-dropzone.visible { 
+    height: 100%; 
+    opacity: 0.8; 
+}
+
+#global-dropzone h2 { 
+    display: block; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    margin: -82px 0 0 -283px; 
+    color: #fff; 
+    line-height: 50px; 
+    font-size: 45pt; 
+    z-index: -1; 
+    text-shadow: 3px 3px 4px #000; 
+    font-weight: 700;
+}

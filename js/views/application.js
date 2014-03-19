@@ -1,7 +1,6 @@
 App.ApplicationView = Ember.View.extend({
     didInsertElement: function() {
-        var appController = this.get('controller'),
-            self = this;
+        var appController = this.get('controller');
 
         // This timer is a HUGE hack that hopefully doesn't bite.
         // We use it to ensure that when the mouse moves over the H2 element,
@@ -16,29 +15,19 @@ App.ApplicationView = Ember.View.extend({
         };
     
         var addGlobalDropzone = function() {
-            // If it's already in the DOM, just ensure it has the correct opacity
-            if ($('#global-dropzone').length != 0) { 
-                $('#global-dropzone').addClass('visible');
-                return;
-            }
-             
-            // Otherwise, add it.
-            $('body').append('<div id="global-dropzone"><h2>Drop files to upload</h2></div>');
-            $('#global-dropzone h2').on('dragover', function() {
-                if(removeTimer) { Ember.run.cancel(removeTimer); }
-                removeTimer = null;
-            });
-            $('#global-dropzone').on('click', function() { removeGlobalDropzone(); });
-            
-            // Create a timeout to make it visible
-            setTimeout(function() {
-                $('#global-dropzone').addClass('visible');
-            }, 1);
+            appController.set('showDropZone', true);
         };
         
         var removeGlobalDropzone = function() {
-            $('#global-dropzone').removeClass('visible');
+            appController.set('showDropZone', false);
         };
+        
+        $('#global-dropzone h2').on('dragover', function() {
+            if(removeTimer) { Ember.run.cancel(removeTimer); }
+            removeTimer = null;
+        });
+        
+        $('#global-dropzone').on('click', removeGlobalDropzone);
         
         $('body').on('dragover', function(evt) {
             if(dragDropEventHasFiles(evt)) {
