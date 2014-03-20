@@ -1,90 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Embernati Upload Demo</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <meta charset="utf-8">
+  <title>Embernati Upload Demo</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
 <body>
-    <!-- Main application template. -->
-    <script type="text/x-handlebars">
-        {{outlet}}
-        
-        <div id="global-dropzone" {{bind-attr class="showDropZone:visible"}}>
-            <h2>Drop files to upload</h2>
+  <!-- Main application template. -->
+  <script type="text/x-handlebars">
+    {{outlet}}
+    
+    <div id="global-dropzone" {{bind-attr class="showDropZone:visible"}}>
+      <h2>Drop files to upload</h2>
+    </div>
+  </script>
+
+  <!-- Files template. -->
+  <script type="text/x-handlebars" id="files">
+    <h2>Welcome to file upload demo</h2><br>
+    
+    <div class="col-uploads">
+      <button {{action "uploadAll"}} {{bind-attr class=":btn :btn-primary hasUploads::disabled"}}>Upload All</button>
+      <button {{action "removeCompleted"}} {{bind-attr class=":btn :btn-default :btn-remove-completed hasCompleted::disabled"}}>Remove Completed</button>
+      <label class="total-size">Total file size: </label> {{totalFileSize}}
+      
+      <br><br>
+
+      {{#each uploadFile in controller}}
+        <div class="upload-file-block">
+          <div class="image-preview">
+            {{#if uploadFile.isDisplayableImage}}
+              <img class="image-preview" {{bind-attr src=uploadFile.base64Image}} />
+            {{else}}
+              <img class="image-preview" src="img/image-unknown.gif">
+            {{/if}}
+          </div>
+          
+          <div class="details-block">
+            <label>Name:</label> {{input value=uploadFile.name}} <br>
+            <label>Size:</label> {{uploadFile.size}}<br>
+            
+            {{#if uploadFile.didUpload}}
+              <span class="has-success">
+                <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+                <span class="form-control-feedback">Success</span>
+              </span>
+            {{else}}
+              <a {{action "uploadFile" uploadFile}}>Upload</a>
+            {{/if}}
+            
+            <a {{action "removeFile" uploadFile}} class="remove-from-list">Remove from List</a>
+            
+            {{#if uploadFile.showProgressBar}}
+              <div class="progress progress-striped">
+                <div class="progress-bar progress-bar-info" {{bind-attr style="uploadFile.progressStyle"}}></div>
+              </div>
+            {{/if}}
+          </div>
         </div>
-    </script>
-
-    <!-- Files template. -->
-    <script type="text/x-handlebars" id="files">
-        <h2>Welcome to file upload demo</h2><br>
+      {{/each}}
+    </div>
         
-        <button {{action "uploadAll"}} class="btn btn-primary">Upload All</button>
-        <button {{action "removeCompleted"}} class="btn btn-default btn-remove-completed">Remove Completed</button>
-        <label class="total-size">Total file size: </label> {{totalFileSize}}
-        
-        <br><br>
+    <div class="col-log">
+      <div class="well">
+        <label>Upload Logs</label>
+        <ul>
+        {{#each url in uploadedLog}}
+          <li><a {{bind-attr href="url"}} target="_blank">{{url}}</a></li>
+        {{/each}}
+        </ul>
+      </div>
+    </div>
+  </script>
 
-        <div class="row">
-            <div class="col-md-7">
-            {{#each uploadFile in controller}}
-                <div class="upload-file-block">
-                    <div class="image-preview">
-                        {{#if uploadFile.isDisplayableImage}}
-                            <img class="image-preview" {{bind-attr src=uploadFile.base64Image}} />
-                        {{else}}
-                            <img class="image-preview" src="img/image-unknown.gif">
-                        {{/if}}
-                    </div>
-                  
-                    <div class="details-block">
-                        <label>Name:</label> {{input value=uploadFile.name}} <br>
-                        <label>Size:</label> {{uploadFile.size}}<br>
-                        
-                        {{#if uploadFile.didUpload}}
-                            <span class="has-success">
-                                <span class="glyphicon glyphicon-ok form-control-feedback"></span>
-                                <span class="form-control-feedback">Success</span>
-                            </span>
-                        {{else}}
-                            <a {{action "uploadFile" uploadFile}}>Upload</a>
-                        {{/if}}
-                        <a {{action "removeFile" uploadFile}} class="remove-from-list">Remove from List</a>
-                        
-                        {{#if uploadFile.showProgressBar}}
-                            <div class="progress progress-striped">
-                                <div class="progress-bar progress-bar-info" {{bind-attr style="uploadFile.progressStyle"}}></div>
-                            </div>
-                        {{/if}}
-                    </div>
-                </div>
-            {{/each}}
-            </div>
-            <div class="col-md-5">
-                <div class="well">
-                    <label>Upload Logs</label>
-                    <ul>
-                    {{#each url in uploadedLog}}
-                        <li><a {{bind-attr href="url"}} target="_blank">{{url}}</a></li>
-                    {{/each}}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <!-- Since we're not using buildtools, pull all the files in manually in specific order. -->
-    <script src="js/libs/jquery-1.10.2.js"></script>
-    <script src="js/libs/handlebars-1.1.2.js"></script>
-    <script src="js/libs/ember-1.4.0.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/controllers/files.js"></script>
-    <script src="js/models/file_upload.js"></script> 
-    <script src="js/routes/routes.js"></script>
-    <script src="js/routes/files.js"></script>
-    <script src="js/routes/index.js"></script>
-    <script src="js/views/application.js"></script>
+  <!-- Since we're not using buildtools, pull all the files in manually in specific order. -->
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.1.2.js"></script>
+  <script src="js/libs/ember-1.4.0.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers/files.js"></script>
+  <script src="js/models/file_upload.js"></script> 
+  <script src="js/routes/routes.js"></script>
+  <script src="js/routes/files.js"></script>
+  <script src="js/routes/index.js"></script>
+  <script src="js/views/application.js"></script>
 </body>
 </html>

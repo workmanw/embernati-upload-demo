@@ -9,6 +9,14 @@ App.FilesController = Ember.ArrayController.extend({
         return App.humanReadableFileSize(total);
     }.property('model.@each.rawSize'),
     
+    hasUploads: function() {
+        return this.get('length') > 0;
+    }.property('length'),
+    
+    hasCompleted: function() {
+        return !!this.get('model').findProperty('didUpload');
+    }.property('model.@each.didUpload'),
+    
     actions: {
         removeFile: function(file) {
             this.get('model').removeObject(file);

@@ -46,6 +46,18 @@ body {
     font-weight: 700;
 }
 
+.col-uploads {
+    width: 550px;
+    display: inline-block;
+}
+
+.col-log {
+    width: 500px;
+    display: inline-block;
+    margin-left: 30px;
+    vertical-align: top;
+}
+
 .upload-file-block {
     height: 120px;
     margin-bottom: 10px;

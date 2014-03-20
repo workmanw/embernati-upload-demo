@@ -68,6 +68,10 @@ App.FileUploadModel = Ember.Object.extend({
     // Actually do something!
     //    
     uploadFile: function() {
+        if(this.get('isUploading') || this.get('didUpload') || this.get('didError')) { 
+            return this.get('uploadPromise');
+        }
+        
         var fileToUpload = this.get('fileToUpload');
         var name = this.get('name');
         var key = "public-uploads/" + (new Date).getTime() + '-' + name;
@@ -106,6 +110,7 @@ App.FileUploadModel = Ember.Object.extend({
             self.get('uploadPromise').resolve(value);
         }).fail(function(jqXHR, textStatus, errorThrown) {
             self.set('isUploading', false);
+            self.set('didError', true);
             self.get('uploadPromise').reject(errorThrown);
         });
         
