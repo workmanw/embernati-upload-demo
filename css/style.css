@@ -12,6 +12,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.welcome-header {
+  display: inline-block;
+}
+
+span.welcome-header {
+  margin-top: 28px;
+  margin-left: 6px;
+  vertical-align: top;
+}
+
+a.active, a.active:hover {
+  color: black;
+  cursor: default;
+  text-decoration: none;
+}
+
 #global-dropzone { 
     background: none repeat scroll 0 0 #424242; 
     height: 0px; 
@@ -44,6 +60,15 @@ body {
     z-index: -1; 
     text-shadow: 3px 3px 4px #000; 
     font-weight: 700;
+}
+
+.msg-drop {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.msg-drop.extra {
+    margin-top: 130px;
 }
 
 .col-uploads {

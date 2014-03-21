@@ -18,5 +18,6 @@ Ember.Route.reopen({
 });
 
 App.Router.map(function() {
+    this.route("notFiles", { path: "/not-files" });
     this.route("files", { path: "/files" });
 });

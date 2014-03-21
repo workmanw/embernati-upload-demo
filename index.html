@@ -10,17 +10,28 @@
 <body>
   <!-- Main application template. -->
   <script type="text/x-handlebars">
+    <h2 class="welcome-header">File upload demo</h2>
+    <span class="welcome-header">
+      ({{#link-to 'files'}}Files{{/link-to}}, {{#link-to 'notFiles'}}Not Files{{/link-to}})
+    </span>
+    <br>
+
     {{outlet}}
     
     <div id="global-dropzone" {{bind-attr class="showDropZone:visible"}}>
       <h2>Drop files to upload</h2>
     </div>
   </script>
+  
+  <!-- Not Files template -->
+  <script type="text/x-handlebars" id="notFiles">
+    <div class="col-uploads">
+      <h4 class="msg-drop extra">Dropping files here has no effect.</h4>
+    </div>
+  </script>
 
   <!-- Files template. -->
-  <script type="text/x-handlebars" id="files">
-    <h2>Welcome to file upload demo</h2><br>
-    
+  <script type="text/x-handlebars" id="files">    
     <div class="col-uploads">
       <button {{action "uploadAll"}} {{bind-attr class=":btn :btn-primary hasUploads::disabled"}}>Upload All</button>
       <button {{action "removeCompleted"}} {{bind-attr class=":btn :btn-default :btn-remove-completed hasCompleted::disabled"}}>Remove Completed</button>
@@ -60,6 +71,8 @@
             {{/if}}
           </div>
         </div>
+      {{else}}
+        <h4 class="msg-drop">Drop files here to upload</h4>
       {{/each}}
     </div>
         
