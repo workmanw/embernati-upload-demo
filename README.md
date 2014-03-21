@@ -1,3 +1,8 @@
+Background
+====================
+I gave a talk at the March [EmberNati](http://www.meetup.com/EmberNati/) meetup (Cincinnati) on asynchronously uploading files with Ember.js. 
+This repo contains the code used in that talk.
+Here is the video of that talk: http://www.youtube.com/watch?v=7Z3HCTFFCKc
 
 Demo
 ====================
@@ -11,4 +16,6 @@ This is all static content. Run it however it's convenient for you. I usually us
 
 Credit / Attribution
 ====================
-I started with the Ember 1.4 starter kit (https://github.com/emberjs/starter-kit).
+  * Started with the Ember 1.4 starter kit (https://github.com/emberjs/starter-kit).
+  * Using Bootstrap (http://getbootstrap.com/)
+ 
